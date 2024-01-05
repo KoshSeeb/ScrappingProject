@@ -1,0 +1,113 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Courier New", Courier, monospace;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    width: 100vw;
+
+}
+
+#SearchPage{
+    height: 100vh;
+	width: 100%;
+	background-image: url(../Assets/bg.jpg);
+	background-position: center;
+	background-size: cover;
+	position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+header{
+    padding-top: 1%;
+    width: 20vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
+    background-color: rgba(247, 243, 243, 0.192);
+    
+}
+
+header:hover{
+    box-shadow: 0 0 5px 0px rgba(255, 255, 255, 2);
+    transition: all .5s ease-in-out;
+}
+
+header img {
+    border-radius: 50%;
+    height: 150px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h2{
+    color: rgb(121, 52, 52);
+    padding-top: 2%;
+}
+
+.search {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    padding: 5px 20px;
+    background-color: rgba(240, 234, 234, 0.849);
+    border-radius: 50px;
+    width: 40vw;
+}
+
+.search:hover{
+    box-shadow: 0 0 5px 0px rgba(255, 255, 255, 2);
+    transition: all .5s ease-in-out;
+}
+
+input {
+    padding: 15px 20px;
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+form button {
+    background: transparent;
+    border: none;
+    width: 50px;
+    height: 50px;
+    outline: none;
+}
+
+form button img {
+    width: 25px;
+    height: 25px;
+}
+
+#Popular {
+    background: rgba(226, 228, 231, 0.9);
+    border-radius: 10px;
+    margin-bottom: 5%;
+    padding: 20px;
+    box-sizing: border-box;
+    width: 25%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+#Popular:hover{
+    box-shadow: 0 0 5px 0px rgba(255, 255, 255, 2);
+    transition: all .5s ease-in-out;
+}
+
+ul li a{
+    text-decoration: none;
+    color: black;
+}
