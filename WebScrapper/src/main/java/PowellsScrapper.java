@@ -86,7 +86,7 @@ public class PowellsScrapper extends Thread {
                         comparison.setBook(book);
                         comparison.setWebsiteName("Powells");
                         comparison.setWebsiteUrl(url);
-                        comparison.setPrice(Double.parseDouble(price.replace("$", "")));
+//                        comparison.setPrice(Double.parseDouble(price.replace("$", "")));
                         session.persist(comparison);
 
                         transaction.commit();

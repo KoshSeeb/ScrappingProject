@@ -27,7 +27,7 @@ public class Book {
     private String bookCondition;
 
     @Column(name = "stock")
-    private int stock;
+    private String stock;
 
     @Column(name = "book_type", length = 50)
     private String bookType;
@@ -80,20 +80,20 @@ public class Book {
         this.bookCondition = bookCondition;
     }
 
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
     public String getBookType() {
         return bookType;
     }
 
     public void setBookType(String bookType) {
         this.bookType = bookType;
+    }
+
+    public String getStock() {
+        return stock;
+    }
+
+    public void setStock(String stock) {
+        this.stock = stock;
     }
 
     // Getters and setters
