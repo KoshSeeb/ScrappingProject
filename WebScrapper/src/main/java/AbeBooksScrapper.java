@@ -124,7 +124,7 @@ public class AbeBooksScrapper extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+        }
         runThread = false;
     }
-}}
+}

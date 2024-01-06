@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing page</title>
-    <link rel="stylesheet" href="CSS/Comparison_style.css">
+    <link rel="stylesheet" href="../static/css/Comparison_style.css">
 </head>
 <body>
     <section id="ResultPage">
         <header>
-            <img src="Assets/logo_white.png" alt="Logo">
-            <h2>Book: </h2>
+            <img src="../static/image/logo_white.png" alt="Logo">
+            <h2>Book: Bookname by Author </h2>
             <form class="search">
                 <input type="text" placeholder="Search for book name?" required>
-                <button type="submit"><img src="Assets/searchglass.png"></button>
+                <button type="submit"><img src="../static/image/searchglass.png"></button>
             </form>
         </header>
 
@@ -21,7 +21,7 @@
             <div class="left-container">
                 <!-- Top Left: Image -->
                 <div id="top">
-                    <img src="Assets/logo_white.png" alt="Product Image" style="max-width: 100%; height: auto;">
+                    <img src="../static/image/logo_white.png" alt="Product Image" style="max-width: 100%; height: auto;">
                     
                     <div class="top-right">
                         <span>Best Price:</span>
@@ -40,7 +40,7 @@
                 <!-- Bottom Center: Description -->
                 <div class="bottom-center">
                     <b>Description:</b><br> Your product description goes here.
-                    </div>
+                </div>
             </div> 
             
             <div class="right-container">
@@ -51,9 +51,11 @@
                             <thead>
                                 <!-- Table headers -->
                                 <tr>
-                                    <th> Website </th>
+                                    <th> Title </th>
+                                    <th> Website Name</th>
                                     <th> URL</th>
                                     <th> Price </th>
+                                    <th> More information </th>
 
                                 </tr>
                             </thead>
@@ -61,10 +63,12 @@
                             <!-- Hardcoded example of how the information will be displayed in the table -->
                             <tbody>
                                 <tr>
-                                    <td>Bookstore</td>
+                                    <td>Harry potter and the gaurdian. ........</td>
+                                    <td>abesbook</td>
                                     <td>
                                         <a href #>https.example.com</a>
                                     </td>
+                                    <td>$14</td>
                                     <td>$14</td>
 
                                 </tr>
@@ -75,6 +79,11 @@
                                         Grey sofa
                                     </td>
                                     <td>2 seat sofa</td>
+                                    <td>002</td>
+                                    <td>
+                                        <!-- <img src="Images/sofa1.jpg">  -->
+                                        Grey sofa
+                                    </td>
            
                                 </tr>
                                 

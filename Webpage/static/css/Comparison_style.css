@@ -91,13 +91,13 @@ form button img {
     width: 25px;
     height: 25px;
 }
+
 container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     padding: 20px;
     padding-top: 4%;
-    align-items: center !important;                                 
-
+    align-items: center;
 }
 
 .left-container {

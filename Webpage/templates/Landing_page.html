@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing page</title>
+    <link rel="stylesheet" href="../static/css/Landing_style.css">
+</head>
+<body>
+    <section id="SearchPage">
+        <header>
+            <img src="../static/image/logo_white.png" alt="Logo">
+            <h2>Read Wisely, Save Wildly</h2>
+        </header>
+        
+        <form class="search" id="searchForm">
+            <input type="text" id="searchInput" placeholder="Search for book name?" required>
+            <button type="submit"><img src="../static/image/searchglass.png"></button>
+        </form>
+
+        <div id="Popular">
+            <h2>Popular Searches:</h2>
+            <ul class="Popular">
+                <li><a href="#">Fiction & Literature</a></li>
+                <li><a href="#">Non Fiction</a></li>
+                <li><a href="#">Science & Technology</a></li>
+                <li><a href="#">Health & Wellness</a></li>
+        </div>    
+
+    </section>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    // Wait for the DOM to be fully loaded
+
+    // Select the form and input elements
+    const searchForm = document.getElementById('searchForm');
+    const searchInput = document.getElementById('searchInput');
+
+    // Add a submit event listener to the form
+    searchForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+
+        // Get the search query from the input field
+        const searchQuery = searchInput.value;
+
+        // Send the search query to the Java backend using fetch
+        fetch('http://localhost:8080/api/search', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ query: searchQuery }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the response from the backend
+            console.log(data);
+            // Update the DOM or perform any other actions based on the response
+        })
+        .catch(error => {
+            // Handle errors
+            console.error(error);
+        });
+    });
+});
+
+    </script>
+
+</body>
+</html>
+
+
