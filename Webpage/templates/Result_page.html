@@ -11,98 +11,28 @@
     <section id="ResultPage">
         <header>
             <img src="../static/image/logo_white.png" alt="Logo">
-            <h2>Showing results for: </h2>
-            <form class="search">
-                <input type="text" placeholder="Search for book name?" required>
-                <button type="submit"><img src="../static/image/searchglass.png"></button>
+            <h2>Showing results for:<div id="result">123</div> </h2>
+            <form class="search" id="searchForm" onsubmit="event.preventDefault(); searchProducts();">
+                <input type="text" id="searchInput" placeholder="Search for book name?" required>
+                <button type="submit" id="searchBtn"><img src="../static/image/searchglass.png"></button>
             </form>
         </header>
 
         <div class="container">
-            <div class="card-content" style="display: none">
+            <div class="card-content" style="display: none" id="content">
                 <div class="card">
                     <div class="card-image"><img src="../static/image/Book4U_logo.png" alt="test"></div>
                     <div class="card-info">
-                        <h3>Title : 1</h3>
-                        <p>The Mystery of Love and Death </p>
+                        <h3>No books were found</h3>
                     </div>
                 </div>
 
-                <!-- <div class="card">
-                    <div class="card-image"><img src="Assets/Book4U_logo.png" alt="test"></div>
-                    <div class="card-info">
-                        <h3>Title : 2</h3>
-                        <p>The Mystery of Love and Death </p>
-                    </div>
-                </div> -->
-
-                <!-- <div class="card">
-                    <div class="card-image"><img src="Assets/Book4U_logo.png" alt="test"></div>
-                    <div class="card-info">
-                        <h3>Title : 3</h3>
-                        <p>The Mystery of Love and Death </p>
-                    </div>
-                </div> -->
-
-                <!-- <div class="card">
-                    <div class="card-image"><img src="Assets/Book4U_logo.png" alt="test"></div>
-                    <div class="card-info">
-                        <h3>Title : 1</h3>
-                        <p>The Mystery of Love and Death </p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-image"><img src="Assets/Book4U_logo.png" alt="test"></div>
-                    <div class="card-info">
-                        <h3>Title : 234</h3>
-                        <p>The Mystery of Love and Death </p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-image"><img src="Assets/Book4U_logo.png" alt="test"></div>
-                    <div class="card-info">
-                        <h3>Title : 3</h3>
-                        <p>The Mystery of Love and Death </p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-image"><img src="Assets/Book4U_logo.png" alt="test"></div>
-                    <div class="card-info">
-                        <h3>Title : 17</h3>
-                        <p>The Mystery of Love and Death </p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-image"><img src="Assets/Book4U_logo.png" alt="test"></div>
-                    <div class="card-info">
-                        <h3>Title : 28</h3>
-                        <p>The Mystery of Love and Death </p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-image"><img src="Assets/Book4U_logo.png" alt="test"></div>
-                    <div class="card-info">
-                        <h3>Title : 39</h3>
-                        <p>The Mystery of Love and Death </p>
-                    </div>
-                </div> -->
+                
 
             </div>
 
             <div class="pagination">
-                <!-- <li class="page-item previous-page disable"><a class="page-link" href="#">Prev</a></li>
-                <li class="page-item current-page active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item dots"><a class="page-link" href="#">...</a></li>
-                <li class="page-item current-page"><a class="page-link" href="#">5</a></li>
-                <li class="page-item current-page"><a class="page-link" href="#">6</a></li>
-                <li class="page-item dots"><a class="page-link" href="#">...</a></li>
-                <li class="page-item current-page"><a class="page-link" href="#">10</a></li>
-                <li class="page-item next-page"><a class="page-link" href="#">Next</a></li> -->
+
 
             </div>    
 
@@ -112,6 +42,10 @@
           
 
     </section>
+
+    <script>
+        
+    </script>
 
     <script src="../static/js/script.js"></script>
 </body>

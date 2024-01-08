@@ -58,7 +58,7 @@ public class PowellsScrapper extends Thread {
         config.configure("hibernate.cfg.xml"); // Provide your Hibernate configuration file path
 
         try (SessionFactory factory = config.buildSessionFactory();
-             Session session = factory.openSession()) {
+             Session session = factory.openSession())   {
 
             for (int i = 1; i <= 2 && runThread; i++) { // Update the loop condition
                 String url = urlTemp + "&pg=" + i;

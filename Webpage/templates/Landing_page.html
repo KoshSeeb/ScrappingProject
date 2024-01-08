@@ -13,9 +13,9 @@
             <h2>Read Wisely, Save Wildly</h2>
         </header>
         
-        <form class="search" id="searchForm">
+        <form class="search" id="searchForm" onsubmit="event.preventDefault(); searchProducts();">
             <input type="text" id="searchInput" placeholder="Search for book name?" required>
-            <button type="submit"><img src="../static/image/searchglass.png"></button>
+            <button type="submit" id="searchBtn"><img src="../static/image/searchglass.png"></button>
         </form>
 
         <div id="Popular">
@@ -30,6 +30,33 @@
     </section>
 
     <script>
+        // function searchProducts() {
+        //   const searchInput = document.getElementById('searchInput').value;
+    
+        //   // Make an AJAX request to the /search endpoint
+        //   fetch(`http://localhost:3000/search?q=${searchInput}`)
+        //     .then(response => response.json())
+        //     .then(data => {
+        //       console.log('Received data:', data);
+        //     //   displaySearchResults(data);
+        //     })
+        //     .catch(error => console.error('Error:', error));
+        // }
+
+        function searchProducts() {
+          const searchInput = document.getElementById('searchInput').value;
+
+          // Redirect to Result_page.html with the search query as a parameter
+          window.location.href = `Result_page.html?q=${searchInput}`;
+        }
+
+    </script>
+
+
+
+    <!-- <script src="../static/js/search_bar.js"></script> -->
+
+    <!-- <script>
     document.addEventListener('DOMContentLoaded', function () {
     // Wait for the DOM to be fully loaded
 
@@ -65,7 +92,7 @@
     });
 });
 
-    </script>
+    </script> -->
 
 </body>
 </html>
