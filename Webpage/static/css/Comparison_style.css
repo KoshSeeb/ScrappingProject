@@ -24,6 +24,7 @@ body{
     flex-direction: column;
     flex-wrap: nowrap;
     align-items: center;
+    overflow: hidden;
 }
 
 header{
@@ -150,7 +151,7 @@ container .left-container img{
     align-items: center;
 }
 
-.price {
+#price {
     color: #ff0000;
 }
 
@@ -193,7 +194,7 @@ main.table {
 }
 
 .table_body {
-    max-height: calc(89% - .8rem);
+    max-height: -webkit-fill-available;;
     background-color: #fffb;
     margin: .8rem 0;
     border-radius: .6rem;

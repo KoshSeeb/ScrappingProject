@@ -7,15 +7,15 @@
     <link rel="stylesheet" href="../static/css/Result_style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" charset="utf-8"></script>
 </head>
-<body>
+<body id="body">
     <section id="ResultPage">
         <header>
             <img src="../static/image/logo_white.png" alt="Logo">
-            <h2>Showing results for:<div id="result">123</div> </h2>
-            <form class="search" id="searchForm" onsubmit="event.preventDefault(); searchProducts();">
+            <h2>Showing results for:<div id="result"></div> </h2>
+            <!-- <form class="search" id="searchForm" onsubmit="event.preventDefault(); searchProducts();">
                 <input type="text" id="searchInput" placeholder="Search for book name?" required>
                 <button type="submit" id="searchBtn"><img src="../static/image/searchglass.png"></button>
-            </form>
+            </form> -->
         </header>
 
         <div class="container">
@@ -32,9 +32,13 @@
             </div>
 
             <div class="pagination">
-
-
-            </div>    
+                <li class="page-item previous-page">
+                    <a class="page-link" href="javascript:void(0)">Prev</a>
+                </li>
+                <li class="page-item next-page">
+                    <a class="page-link" href="javascript:void(0)">Next</a>
+                </li>
+            </div>   
 
         </div>
         

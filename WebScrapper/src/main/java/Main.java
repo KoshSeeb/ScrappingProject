@@ -13,13 +13,13 @@ public class Main {
 //        AbeBooks ecampus done
 
 //        PowellsScrapper powellsScrapper = new PowellsScrapper(searchQuery);
-//        AbeBooksScrapper abeBooksScrapper = new AbeBooksScrapper(searchQuery);
-        EcampusScrapper ecampusScrapper = new EcampusScrapper(searchQuery);
+        AbeBooksScrapper abeBooksScrapper = new AbeBooksScrapper(searchQuery);
+//        EcampusScrapper ecampusScrapper = new EcampusScrapper(searchQuery);
 
         // Start the thread running
 //        powellsScrapper.start();
-//        abeBooksScrapper.start();
-        ecampusScrapper.start();
+        abeBooksScrapper.start();
+//        ecampusScrapper.start();
 
         // Read input from the user until they type 'stop'
 //        String userInput = scanner.nextLine();
@@ -29,14 +29,14 @@ public class Main {
 
         // Stop the thread
 //        powellsScrapper.stopThread();
-//        abeBooksScrapper.stopThread();
-        ecampusScrapper.stopThread();
+        abeBooksScrapper.stopThread();
+//        ecampusScrapper.stopThread();
 
-        // Wait for the thread to finish - join can throw an InterruptedException
+        // Wait for the thread to finish
         try {
 //            powellsScrapper.join();
-//            abeBooksScrapper.join();
-            ecampusScrapper.join();
+            abeBooksScrapper.join();
+//            ecampusScrapper.join();
         } catch (InterruptedException ex) {
             System.out.println("Interrupted exception thrown: " + ex.getMessage());
         }

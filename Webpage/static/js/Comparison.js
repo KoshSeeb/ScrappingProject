@@ -2,7 +2,16 @@
 const titleParam = new URLSearchParams(window.location.search).get('title');
 const authorParam = new URLSearchParams(window.location.search).get('author');
 
-// Make an AJAX request to the /bookComparison endpoint with title and author parameters
+// Make an AJAX request
+fetch(`http://localhost:3000/getSelected?title=${titleParam}&author=${authorParam}`)
+  .then(response => response.json())
+  .then(Selected => {
+    console.log('Received selected book details:', Selected);
+    displaySelectedBook(Selected);
+  })
+  .catch(error => console.error('Error:', error));
+
+  // Make an AJAX request
 fetch(`http://localhost:3000/bookComparison?title=${titleParam}&author=${authorParam}`)
   .then(response => response.json())
   .then(bookDetailsArray => {
@@ -11,31 +20,83 @@ fetch(`http://localhost:3000/bookComparison?title=${titleParam}&author=${authorP
   })
   .catch(error => console.error('Error:', error));
 
-function displayBookDetails(bookDetailsArray) {
+function displaySelectedBook(Selected) {
   const bookDetailsContainer = document.getElementById('bookDetailsContainer');
+  const result = document.getElementById('result');
 
-  
-  if (bookDetailsArray && bookDetailsArray.length > 0) {
-    // Display book details for each book in the array
-    bookDetailsArray.forEach(bookDetails => {
-      const detailsDiv = document.createElement('div');
-      detailsDiv.classList.add('book-details');
+  if (Selected && Selected.length > 0) {
+    // Display the first book details in the left container
+    const firstBookDetails = Selected[0];
+    result.innerHTML = firstBookDetails.title;
 
-      detailsDiv.innerHTML = `
-        <h3>${bookDetails.title}</h3>
-        <p>Author: ${bookDetails.author}</p>
-        <p>ISBN: ${bookDetails.isbn}</p>
-        <p>Description: ${bookDetails.description}</p>
-        <p>Book Condition: ${bookDetails.book_condition}</p>
-        <p>Stock: ${bookDetails.stock}</p>
-        <p>Book Type: ${bookDetails.book_type}</p>
-        <!-- Add more details as needed -->
-      `;
+    // Create in required format
+    const leftContainer = document.createElement('div');
+    leftContainer.classList.add('left-container');
 
-      bookDetailsContainer.appendChild(detailsDiv);
-    });
+    const top = document.createElement('div');
+    top.id = 'top';
+    top.innerHTML = `
+      <img src="${firstBookDetails.image_url}" alt="Product Image" style="max-width: 100%; height: auto;">
+      <div class="top-right">
+        <span>Best Price:</span>
+        <span id="price">${firstBookDetails.price}</span>
+      </div>
+    `;
+    leftContainer.appendChild(top);
+
+    const middleCenter = document.createElement('div');
+    middleCenter.classList.add('middle-center');
+    middleCenter.innerHTML = `
+      <b>Website URL: </b> <a href="${firstBookDetails.website_url}" target="_blank">${firstBookDetails.website_url}</a>
+    `;
+    leftContainer.appendChild(middleCenter);
+
+    const bottomCenter = document.createElement('div');
+    bottomCenter.classList.add('bottom-center');
+    bottomCenter.innerHTML = `
+      <b>Description:</b><br> ${firstBookDetails.description}
+    `;
+    leftContainer.appendChild(bottomCenter);
+
+    bookDetailsContainer.appendChild(leftContainer);
   } else {
     // No books found
     bookDetailsContainer.innerHTML = '<p>No books found.</p>';
   }
 }
+
+
+
+
+
+function displayBookDetails(bookDetailsArray) {
+  const tableBody = document.querySelector('.table_body tbody');
+
+  if (bookDetailsArray && bookDetailsArray.length > 0) {
+    for (let i = 1; i < bookDetailsArray.length; i++) {
+      const bookDetails = bookDetailsArray[i];
+      const tableRow = document.createElement('tr');
+
+      tableRow.innerHTML = `
+        <td>${bookDetails.title}</td>
+        <td>${bookDetails.website_name}</td>
+        <td><a href="${bookDetails.website_url}" target="_blank">${bookDetails.website_url}</a></td>
+        <td>${bookDetails.price}</td>
+        <td>
+          ${bookDetails.isbn ? `${bookDetails.isbn}, ` : ''}
+          ${bookDetails.book_condition ? `${bookDetails.book_condition}, ` : ''}
+          ${bookDetails.stock ? `${bookDetails.stock}, ` : ''}
+          ${bookDetails.book_type ? `${bookDetails.book_type}` : ''}
+          <!-- Add more details as needed -->
+        </td>
+      `;
+
+      tableBody.appendChild(tableRow);
+    }
+  } else {
+    // No books found
+    tableBody.innerHTML = '<tr><td colspan="5">No books found.</td></tr>';
+  }
+}
+
+  

@@ -11,14 +11,10 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
-public class EcampusScrapper extends Thread{
+public class EcampusScrapper extends Thread {
 
-    // Specifies the interval between HTTP requests to the server in seconds.
     private int crawlDelay = 1;
-
-    // Allows us to shut down our application cleanly
     volatile private boolean runThread = false;
-
     private String searchQuery;
 
     public EcampusScrapper(String searchQuery) {
@@ -29,72 +25,74 @@ public class EcampusScrapper extends Thread{
     public void run() {
         runThread = true;
 
-        // While loop will keep running until runThread is set to false;
         while (runThread) {
             System.out.println("EcampusScrapper thread is scraping data for query: " + searchQuery);
 
-            // WEB SCRAPING CODE GOES HERE
             scrapeBooks(searchQuery);
 
-            // Sleep for the crawl delay, which is in seconds
             try {
-                sleep(1000 * crawlDelay); // Sleep is in milliseconds, so we need to multiply the crawl delay by 1000
+                sleep(1000 * crawlDelay);
             } catch (InterruptedException ex) {
                 System.err.println(ex.getMessage());
             }
         }
     }
 
-    // Other classes can use this method to terminate the thread.
     public void stopThread() {
         runThread = false;
+    }
+
+    private Comparison getExistingComparison(Session session, String title, String author, String websiteUrl) {
+        return session.createQuery(
+                        "FROM Comparison c " +
+                                "JOIN FETCH c.book b " +
+                                "WHERE b.title = :title AND b.author = :author AND c.websiteUrl = :websiteUrl", Comparison.class)
+                .setParameter("title", title)
+                .setParameter("author", author)
+                .setParameter("websiteUrl", websiteUrl)
+                .setMaxResults(1)
+                .uniqueResult();
     }
 
     private void scrapeBooks(String searchQuery) {
         String urlTemp = "https://www.ecampus.com/search-results?terms=" + searchQuery;
         urlTemp = urlTemp + "&page=";
 
+        Configuration config = new Configuration();
+        config.configure("hibernate.cfg.xml");
 
+        try (SessionFactory factory = config.buildSessionFactory();
+             Session session = factory.openSession()) {
 
+            for (int i = 1; i <= 10 && runThread; i++) {
+                String url = urlTemp + i;
 
-            Configuration config = new Configuration();
-            config.configure("hibernate.cfg.xml"); // Provide your Hibernate configuration file path
+                System.out.println("Generated URL: " + url);
 
-            try (SessionFactory factory = config.buildSessionFactory();
-                 Session session = factory.openSession()) {
+                try {
+                    Document document = Jsoup.connect(url).get();
+                    Elements books = document.select("ul.results > li.row");
 
-                for (int i = 1; i <= 10 && runThread; i++) {
-                    String url = urlTemp + i;
+                    for (Element bk : books) {
+                        String title = bk.select("h1 a").text();
+                        String author = bk.select("p.author").text().replaceFirst("^by\\s*", "");
+                        String isbn = bk.select("ul li:contains(ISBN13)").text();
+                        String bookType = bk.select("ul li:contains(Format)").text().replace("Format:", "").trim();
+                        String price = "";
+                        Element priceNewElement = bk.select("li.row:contains(Buy New) div.price").first();
 
-                    // Uncomment the line below if you want to print the generated URL
-                    System.out.println("Generated URL: " + url);
+                        if (priceNewElement != null) {
+                            String fullPrice = priceNewElement.text();
+                            price = fullPrice.substring(1);
+                        }
 
-                    try {
-                        Document document = Jsoup.connect(url).get();
-                        Elements books = document.select("ul.results > li.row");
+                        String imageUrl = bk.select("div.image img").attr("src");
+                        String websiteUrl = "https://www.ecampus.com/" + bk.select("h1 a").attr("href");
 
+                        // Check if the book with the same title, author, and website URL already exists in the database
+                        Comparison existingComparison = getExistingComparison(session, title, author, websiteUrl);
 
-
-                        for (Element bk : books) {
-
-
-                            String title = bk.select("h1 a").text();
-                            String author = bk.select("p.author").text().replaceFirst("^by\\s*", "");
-                            String isbn = bk.select("ul li:contains(ISBN13)").text();
-                            String bookType = bk.select("ul li:contains(Format)").text().replace("Format:", "").trim();
-
-
-                            String price = "";
-                            Element priceNewElement = bk.select("li.row:contains(Buy New) div.price").first();
-                            if (priceNewElement != null) {
-                                price = priceNewElement.text();
-                            }
-
-
-                            String imageUrl = bk.select("div.image img").attr("src");
-                            String websiteUrl = "https://www.ecampus.com/" + bk.select("h1 a").attr("href");
-
-                            // Print extracted information
+                        if (existingComparison == null) {
                             System.out.println("Title: " + title);
                             System.out.println("Author: " + author);
                             System.out.println("ISBN: " + isbn);
@@ -105,16 +103,14 @@ public class EcampusScrapper extends Thread{
                             System.out.println("------------------------------");
 
                             Transaction transaction = session.beginTransaction();
+
                             Book book = new Book();
                             book.setTitle(title);
-                            book.setAuthor(author); // You can set the author based on your requirements
+                            book.setAuthor(author);
                             book.setIsbn(isbn);
-        //                    book.setBookCondition(bookCondition);
-        //                    book.setStock(quantity);
                             book.setBookType(bookType);
-        //                    book.setDescription(description);
                             session.persist(book);
-        //
+
                             Comparison comparison = new Comparison();
                             comparison.setBook(book);
                             comparison.setWebsiteName("ecampus");
@@ -122,24 +118,21 @@ public class EcampusScrapper extends Thread{
                             comparison.setWebsiteUrl(websiteUrl);
                             comparison.setPrice(price);
                             session.persist(comparison);
-        //
+
                             transaction.commit();
-
+                        } else {
+                            System.out.println("Book with the same title, author, and website URL already exists in the database.");
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         runThread = false;
     }
 }
-
-
-
-
-
