@@ -11,44 +11,57 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
+/**
+ * This class represents a web scraper for the AbeBooks website to extract book information.
+ * It extends the Thread class to run the scraping process concurrently.
+ */
 public class AbeBooksScrapper extends Thread {
 
     // Specifies the interval between HTTP requests to the server in seconds.
     private int crawlDelay = 1;
     // Allows us to shut down our application cleanly
     volatile private boolean runThread = false;
-    private String searchQuery;
 
-    public AbeBooksScrapper(String searchQuery) {
-        this.searchQuery = searchQuery;
-    }
 
+    /**
+     * The main entry point for the thread. Initiates the scraping process.
+     */
     @Override
     public void run() {
         runThread = true;
 
         // While loop will keep running until runThread is set to false;
         while (runThread) {
-            System.out.println("AbeBooksScrapper thread is scraping data for query: " + searchQuery);
+            System.out.println("AbeBooksScrapper thread is scraping data");
 
-            // WEB SCRAPING CODE GOES HERE
-            scrapeBooks(searchQuery);
+            // Web scrapper goes here
+            scrapeBooks();
 
             // Sleep for the crawl delay, which is in seconds
             try {
-                sleep(1000 * crawlDelay); // Sleep is in milliseconds, so we need to multiply the crawl delay by 1000
+                sleep(1000 * crawlDelay);
             } catch (InterruptedException ex) {
                 System.err.println(ex.getMessage());
             }
         }
     }
 
-    // Other classes can use this method to terminate the thread.
+    /**
+     * Stops the thread when called by other classes.
+     */
     public void stopThread() {
         runThread = false;
     }
 
-    // Helper method to check if a Comparison with the same title, author, and website URL already exists in the database
+    /**
+     * Helper method to check if a Comparison with the same title, author, and website URL already exists in the database.
+     *
+     * @param session      The Hibernate session.
+     * @param title        The title of the book.
+     * @param author       The author of the book.
+     * @param websiteUrl   The website URL of the book.
+     * @return             A Comparison object if a duplicate exists, null otherwise.
+     */
     private Comparison getExistingComparison(Session session, String title, String author, String websiteUrl) {
         return session.createQuery(
                         "FROM Comparison c " +
@@ -61,14 +74,17 @@ public class AbeBooksScrapper extends Thread {
                 .uniqueResult();
     }
 
-    // Main method to scrape books from AbeBooks website
-    private void scrapeBooks(String searchQuery) {
-        String urlTemp = "https://www.abebooks.com/servlet/SearchResults?dsp=100&kn=" + searchQuery;
+    /**
+     * Main method to scrape books from the AbeBooks website.
+     *
+     */
+    private void scrapeBooks() {
+        String urlTemp = "https://www.abebooks.com/servlet/SearchResults?dsp=100&kn=fantasy";
         urlTemp = urlTemp + "&sts=t&cm_sp=SearchF-_-TopNavISS-_-Results&sortbyp=0";
         String url = urlTemp;
 
         Configuration config = new Configuration();
-        config.configure("hibernate.cfg.xml"); // Provide your Hibernate configuration file path
+        config.configure("hibernate.cfg.xml"); // Provide your Hibernate file
 
         try (SessionFactory factory = config.buildSessionFactory();
              Session session = factory.openSession()) {

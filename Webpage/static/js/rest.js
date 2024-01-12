@@ -51,29 +51,6 @@ app.get('/search', (req, res) => {
 
 
 
-// app.get('/search', (req, res) => {
-//   const query = req.query.q;
-//   const numItems = parseInt(req.query.numitems) || 12;
-//   const offset = parseInt(req.query.offset) || 0;
-
-//   // Use a MySQL query to fetch products based on the search query
-//   pool.query(
-//     'SELECT b.title, b.author, c.image_url ' +
-//     'FROM Book b ' +
-//     'LEFT JOIN Comparison c ON b.book_id = c.book_id ' +
-//     'WHERE b.title LIKE ? LIMIT ?, ?',
-//     [`%${query}%`, offset, numItems],
-//     (error, results) => {
-//       if (error) {
-//         console.error('Error executing MySQL query:', error);
-//         res.status(500).json({ error: 'Internal Server Error' });
-//       } else {
-//         res.json(results);
-//       }
-//     }
-//   );
-// });
-
 
 app.get('/getSelected', (req, res) => {
   // Extract title and author from the query parameters

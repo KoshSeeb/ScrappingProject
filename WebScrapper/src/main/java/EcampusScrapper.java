@@ -11,38 +11,57 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
+/**
+ * This class represents a web scraper for the eCampus website to extract book information.
+ * It extends the Thread class to run the scraping process concurrently.
+ */
 public class EcampusScrapper extends Thread {
 
+    // Specifies the interval between HTTP requests to the server in seconds.
     private int crawlDelay = 1;
+    // Allows us to shut down our application cleanly
     volatile private boolean runThread = false;
-    private String searchQuery;
 
-    public EcampusScrapper(String searchQuery) {
-        this.searchQuery = searchQuery;
-    }
-
+    /**
+     * The main entry point for the thread. Initiates the scraping process.
+     */
     @Override
     public void run() {
         runThread = true;
 
+        // While loop will keep running until runThread is set to false;
         while (runThread) {
-            System.out.println("EcampusScrapper thread is scraping data for query: " + searchQuery);
+            System.out.println("EcampusScrapper thread is scraping data");
 
-            scrapeBooks(searchQuery);
+            // WEB SCRAPING CODE GOES HERE
+            scrapeBooks();
 
+            // Sleep for the crawl delay, which is in seconds
             try {
-                sleep(1000 * crawlDelay);
+                sleep(1000 * crawlDelay); // Sleep is in milliseconds, so we need to multiply the crawl delay by 1000
             } catch (InterruptedException ex) {
                 System.err.println(ex.getMessage());
             }
         }
     }
 
+    /**
+     * Stops the thread when called by other classes.
+     */
     public void stopThread() {
         runThread = false;
     }
 
-    private Comparison getExistingComparison(Session session, String title, String author, String websiteUrl) {
+    /**
+     * Helper method to check if a Comparison with the same title, author, and website URL already exists in the database.
+     *
+     * @param session      The Hibernate session.
+     * @param title        The title of the book.
+     * @param author       The author of the book.
+     * @param websiteUrl   The website URL of the book.
+     * @return             A Comparison object if a duplicate exists, null otherwise.
+     */
+    protected Comparison getExistingComparison(Session session, String title, String author, String websiteUrl) {
         return session.createQuery(
                         "FROM Comparison c " +
                                 "JOIN FETCH c.book b " +
@@ -54,8 +73,11 @@ public class EcampusScrapper extends Thread {
                 .uniqueResult();
     }
 
-    private void scrapeBooks(String searchQuery) {
-        String urlTemp = "https://www.ecampus.com/search-results?terms=" + searchQuery;
+    /**
+     * Main method to scrape books from the eCampus website.
+     */
+    protected void scrapeBooks( ) {
+        String urlTemp = "https://www.ecampus.com/search-results?terms=fantasy";
         urlTemp = urlTemp + "&page=";
 
         Configuration config = new Configuration();
