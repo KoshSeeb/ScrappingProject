@@ -1,8 +1,10 @@
+// Variable to keep track of the current page
 let currentPage = 1;
 
-
+// Extract search query parameter from the URL
 const searchQuery = new URLSearchParams(window.location.search).get('q');
 
+// Function to fetch search results from the server
 function fetchResults(page) {
     fetch(`http://localhost:3000/search?q=${encodeURIComponent(searchQuery)}&page=${page}`)
       .then(response => response.json())
@@ -19,7 +21,7 @@ function fetchResults(page) {
     fetchResults(currentPage);
 };
 
-
+// Function to display search results on the page
 function displaySearchResults(results) {
     const contentDiv = document.getElementById('content');
     const result = document.getElementById('result');
@@ -31,7 +33,7 @@ function displaySearchResults(results) {
         contentDiv.innerHTML = ''; 
     } 
 
-    
+    // Loop through each book in the results and create a card for it
   results.forEach(book => {
     const cardDiv = document.createElement('div');
     cardDiv.classList.add('card');
@@ -48,7 +50,7 @@ function displaySearchResults(results) {
 
     // Add a click event listener to each card
     cardDiv.addEventListener('click', () => {
-
+ // Add a click event listener to each card to navigate to the comparison page
       window.location.href = `Comparison_page.html?title=${book.title}&author=${book.author}`;
     });
 
@@ -63,19 +65,22 @@ function displaySearchResults(results) {
     contentDiv.appendChild(cardDiv);
   });
 
+    // Show the card content
  $(".card-content").show();
 
 }
 
 
 
-
+// Event listener for the next page button
 $(".next-page").on("click", function(){
         currentPage++;
         fetchResults(currentPage);
-        console.log(currentPage)
+        console.log("Page:" + currentPage)
     });
 
+
+// Event listener for the previous page button
 $(".previous-page").on("click", function(){
         if (currentPage > 1) {
             currentPage--;
@@ -84,12 +89,4 @@ $(".previous-page").on("click", function(){
 
           }
     });
-
-
-
-   
-
-
-    
-    
 

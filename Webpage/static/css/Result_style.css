@@ -1,3 +1,4 @@
+/* Reset default styling for all elements */
 * {
     margin: 0;
     padding: 0;
@@ -6,15 +7,12 @@
 }
 
 body{
-    /* height: 100vh; */
     width: 100vw;
 
 }
 
 #ResultPage{
-    /* height: 100vh; */
     width: 100%;
-    /* background-image: url(../Assets/bg.jpg); */
     background-color: rgb(168, 168, 148);
     background-position: center;
     background-size: cover;
@@ -26,6 +24,7 @@ body{
     align-items: center;
 }
 
+/* Styling for the header section */
 header{
     padding-top: 1%;
     padding: 10px;
@@ -56,44 +55,8 @@ h2{
 font-family: "Courier New", Courier, monospace;
 }
 
-.search {
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    padding: 5px;
-    background-color: rgb(255, 255, 255);
-    border-radius: 50px;
-    width: 20%;
-}
-
-.search:hover{
-    box-shadow: 0 0 5px 0px rgba(255, 255, 255, 2);
-    transition: all .5s ease-in-out;
-}
-
-input {
-    padding: 15px 20px;
-    flex: 1;
-    background: transparent;
-    border: none;
-    outline: none;
-}
-
-form button {
-    background: transparent;
-    border: none;
-    width: 50px;
-    height: 50px;
-    outline: none;
-}
-
-form button img {
-    width: 25px;
-    height: 25px;
-}
-
+/* Styling for the main container */
 .container{
-    /* min-height: 100vh; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -123,7 +86,6 @@ form button img {
 
 .card-image{
     max-height: 200px;
-    /* max-width: 200px; */
     display: flex;
     justify-content: center;
     background-color: #5f778b;
@@ -152,6 +114,8 @@ form button img {
     margin-bottom: 5px;
 }
 
+
+/* Styling for pagincation buttons */
 .pagination{
     text-align: center;
     margin: 30px 30px 60px;
@@ -187,17 +151,3 @@ form button img {
     transform: translateX(5px);
 }
 
-.current-page, .dots{
-    background: #ccc;
-    width: 45px;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.active{
-    background:#0ab1ce;
-}
-
-.disable{
-    background: #ccc;
-}

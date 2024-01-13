@@ -8,41 +8,23 @@
 </head>
 <body>
     <section id="SearchPage">
+        <!-- logo -->
         <header>
             <img src="../static/image/logo_white.png" alt="Logo">
             <h2>Read Wisely, Save Wildly</h2>
         </header>
         
+        <!-- search bar -->
         <form class="search" id="searchForm" onsubmit="event.preventDefault(); searchProducts();">
             <input type="text" id="searchInput" placeholder="Search for book name?" required>
             <button type="submit" id="searchBtn"><img src="../static/image/searchglass.png"></button>
         </form>
 
-        <!-- <div id="Popular">
-            <h2>Popular Searches:</h2>
-            <ul class="Popular">
-                <li><a href="#">Fiction & Literature</a></li>
-                <li><a href="#">Non Fiction</a></li>
-                <li><a href="#">Science & Technology</a></li>
-                <li><a href="#">Health & Wellness</a></li>
-        </div>     -->
 
     </section>
 
     <script>
-        // function searchProducts() {
-        //   const searchInput = document.getElementById('searchInput').value;
-    
-        //   // Make an AJAX request to the /search endpoint
-        //   fetch(`http://localhost:3000/search?q=${searchInput}`)
-        //     .then(response => response.json())
-        //     .then(data => {
-        //       console.log('Received data:', data);
-        //     //   displaySearchResults(data);
-        //     })
-        //     .catch(error => console.error('Error:', error));
-        // }
-
+        // Simple javascript function which will load the search
         function searchProducts() {
           const searchInput = document.getElementById('searchInput').value;
 
@@ -52,47 +34,6 @@
 
     </script>
 
-
-
-    <!-- <script src="../static/js/search_bar.js"></script> -->
-
-    <!-- <script>
-    document.addEventListener('DOMContentLoaded', function () {
-    // Wait for the DOM to be fully loaded
-
-    // Select the form and input elements
-    const searchForm = document.getElementById('searchForm');
-    const searchInput = document.getElementById('searchInput');
-
-    // Add a submit event listener to the form
-    searchForm.addEventListener('submit', function (event) {
-        event.preventDefault(); // Prevent the default form submission behavior
-
-        // Get the search query from the input field
-        const searchQuery = searchInput.value;
-
-        // Send the search query to the Java backend using fetch
-        fetch('http://localhost:8080/api/search', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ query: searchQuery }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Handle the response from the backend
-            console.log(data);
-            // Update the DOM or perform any other actions based on the response
-        })
-        .catch(error => {
-            // Handle errors
-            console.error(error);
-        });
-    });
-});
-
-    </script> -->
 
 </body>
 </html>

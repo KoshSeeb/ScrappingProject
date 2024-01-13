@@ -1,6 +1,9 @@
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/**
+ * JUnit test class for the Main to check if threads are working properly.
+ */
 public class MainTest {
 
     /**
@@ -15,20 +18,20 @@ public class MainTest {
     public void testConcurrentScraping() {
         // Create instances of bookstore scrapers
         AbeBooksScrapper abeBooksScrapper = new AbeBooksScrapper();
-        EcampusScrapper ecampusScrapper = new EcampusScrapper();
+        PowellsScrapper powellsScrapper = new PowellsScrapper();
 
         // Start the scrapers as separate threads
         abeBooksScrapper.start();
-        ecampusScrapper.start();
+        powellsScrapper.start();
 
         // Stop the scrapers
         abeBooksScrapper.stopThread();
-        ecampusScrapper.stopThread();
+        powellsScrapper.stopThread();
 
         // Wait for the scrapers to finish
         try {
             abeBooksScrapper.join();
-            ecampusScrapper.join();
+            powellsScrapper.join();
         } catch (InterruptedException ex) {
             fail("Thread interrupted exception: " + ex.getMessage());
         }
@@ -36,7 +39,7 @@ public class MainTest {
         // Adapt assertions based on the actual properties/methods in your scrapers
         // For example, check if the threads completed without errors
         assertFalse(abeBooksScrapper.isAlive());
-        assertFalse(ecampusScrapper.isAlive());
+        assertFalse(powellsScrapper.isAlive());
     }
 
     /**

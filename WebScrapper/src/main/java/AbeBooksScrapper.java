@@ -18,7 +18,7 @@ import java.io.IOException;
 public class AbeBooksScrapper extends Thread {
 
     // Specifies the interval between HTTP requests to the server in seconds.
-    private int crawlDelay = 1;
+    private final int crawlDelay = 1;
     // Allows us to shut down our application cleanly
     volatile private boolean runThread = false;
 
@@ -34,10 +34,10 @@ public class AbeBooksScrapper extends Thread {
         while (runThread) {
             System.out.println("AbeBooksScrapper thread is scraping data");
 
-            // Web scrapper goes here
+            // Web scrapper
             scrapeBooks();
 
-            // Sleep for the crawl delay, which is in seconds
+            // Sleep for the crawl delay
             try {
                 sleep(1000 * crawlDelay);
             } catch (InterruptedException ex) {
@@ -62,7 +62,7 @@ public class AbeBooksScrapper extends Thread {
      * @param websiteUrl   The website URL of the book.
      * @return             A Comparison object if a duplicate exists, null otherwise.
      */
-    private Comparison getExistingComparison(Session session, String title, String author, String websiteUrl) {
+    protected Comparison getExistingComparison(Session session, String title, String author, String websiteUrl) {
         return session.createQuery(
                         "FROM Comparison c " +
                                 "JOIN FETCH c.book b " +
@@ -79,12 +79,13 @@ public class AbeBooksScrapper extends Thread {
      *
      */
     private void scrapeBooks() {
-        String urlTemp = "https://www.abebooks.com/servlet/SearchResults?dsp=100&kn=fantasy";
+//        Creating the link of the website to scrape
+        String urlTemp = "https://www.abebooks.com/servlet/SearchResults?dsp=25&kn=fantasy";
         urlTemp = urlTemp + "&sts=t&cm_sp=SearchF-_-TopNavISS-_-Results&sortbyp=0";
         String url = urlTemp;
 
         Configuration config = new Configuration();
-        config.configure("hibernate.cfg.xml"); // Provide your Hibernate file
+        config.configure("hibernate.cfg.xml"); // Hibernate file for configuration
 
         try (SessionFactory factory = config.buildSessionFactory();
              Session session = factory.openSession()) {
@@ -106,7 +107,6 @@ public class AbeBooksScrapper extends Thread {
                 price = price.substring(3);
                 String imageUrl = bk.select(".srp-item-image").attr("src");
                 String bookType = bk.select(".item-meta-data b span").text();
-                String websiteName = "https://www.abebooks.com";
                 String websiteUrl = "https://www.abebooks.com" + bk.select(".title a").attr("href");
                 String description = bk.select(".desc-container .readmore-toggle").text();
 
@@ -124,7 +124,6 @@ public class AbeBooksScrapper extends Thread {
                     System.out.println("Image URL: " + imageUrl);
                     System.out.println("Book Type: " + bookType);
                     System.out.println("Website URL: " + websiteUrl);
-                    System.out.println("Website Name: " + websiteName);
                     System.out.println("Description: " + description);
                     System.out.println("------------------------------");
 

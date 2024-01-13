@@ -2,7 +2,7 @@
 const titleParam = new URLSearchParams(window.location.search).get('title');
 const authorParam = new URLSearchParams(window.location.search).get('author');
 
-// Make an AJAX request
+// Make an AJAX request to fetch detailed information about the selected book
 fetch(`http://localhost:3000/getSelected?title=${titleParam}&author=${authorParam}`)
   .then(response => response.json())
   .then(Selected => {
@@ -11,15 +11,17 @@ fetch(`http://localhost:3000/getSelected?title=${titleParam}&author=${authorPara
   })
   .catch(error => console.error('Error:', error));
 
-  // Make an AJAX request
+// Make an AJAX request to fetch comparison details for related books
 fetch(`http://localhost:3000/bookComparison?title=${titleParam}&author=${authorParam}`)
   .then(response => response.json())
   .then(bookDetailsArray => {
     console.log('Received book details:', bookDetailsArray);
+        // Display the details of related books in a table
     displayBookDetails(bookDetailsArray);
   })
   .catch(error => console.error('Error:', error));
 
+  // Function to display details of the selected book
 function displaySelectedBook(Selected) {
   const bookDetailsContainer = document.getElementById('bookDetailsContainer');
   const result = document.getElementById('result');
@@ -29,7 +31,7 @@ function displaySelectedBook(Selected) {
     const firstBookDetails = Selected[0];
     result.innerHTML = firstBookDetails.title;
 
-    // Create in required format
+    // Create the required format
     const leftContainer = document.createElement('div');
     leftContainer.classList.add('left-container');
 
@@ -38,7 +40,7 @@ function displaySelectedBook(Selected) {
     top.innerHTML = `
       <img src="${firstBookDetails.image_url}" alt="Product Image" style="max-width: 100%; height: auto;">
       <div class="top-right">
-        <span>Best Price:</span>
+        <span> Price:</span>
         <span id="price">${firstBookDetails.price}</span>
       </div>
     `;
@@ -65,10 +67,7 @@ function displaySelectedBook(Selected) {
   }
 }
 
-
-
-
-
+// Function to display details of related books in a table
 function displayBookDetails(bookDetailsArray) {
   const tableBody = document.querySelector('.table_body tbody');
 

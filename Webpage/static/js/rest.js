@@ -32,6 +32,7 @@ app.get('/search', (req, res) => {
   // Calculate offset based on page number and items per page
   const offset = (page - 1) * numItems;
 
+   // Use a MySQL query to fetch detailed information from both tables
   pool.query(
     'SELECT b.title, b.author, c.image_url ' +
     'FROM Book b ' +
@@ -40,6 +41,7 @@ app.get('/search', (req, res) => {
     [`%${query}%`, offset, numItems],
     (error, results) => {
       if (error) {
+        // if there was an error, return error
         console.error('Error executing MySQL query:', error);
         res.status(500).json({ error: 'Internal Server Error' });
       } else {

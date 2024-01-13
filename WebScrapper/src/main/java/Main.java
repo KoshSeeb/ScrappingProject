@@ -4,31 +4,42 @@
 public class Main {
 
     /**
-     * The main method that serves as the entry point for the program.
+     * The main method that runs all the scrapper and stops them
      *
-     * @param args Command line arguments (not used in this program).
+     * @param args Command line arguments.
      */
     public static void main(String[] args) {
-        // Read input from the user for search query
-//        Scanner scanner = new Scanner(System.in);
-//        System.out.print("Enter your search query: ");
-//        String searchQuery = scanner.nextLine();
 
         // Create instances of bookstore scrapers
-        AbeBooksScrapper abeBooksScrapper = new AbeBooksScrapper();
         EcampusScrapper ecampusScrapper = new EcampusScrapper();
+        PowellsScrapper powellsScrapper = new PowellsScrapper();
+        KneetScrapper kneetScrapper = new KneetScrapper();
+        HiveScrapper hiveScrapper = new HiveScrapper();
+        AbeBooksScrapper abeBooksScrapper = new AbeBooksScrapper();
 
         // Start the scrapers as separate threads
         abeBooksScrapper.start();
         ecampusScrapper.start();
+        powellsScrapper.start();
+        kneetScrapper.start();
+        hiveScrapper.start();
 
         // Stop the scrapers
         abeBooksScrapper.stopThread();
         ecampusScrapper.stopThread();
+        powellsScrapper.stopThread();
+        kneetScrapper.stopThread();
+        hiveScrapper.stopThread();
+
 
         // Wait for the scrapers to finish
         try {
             abeBooksScrapper.join();
+            ecampusScrapper.join();
+            powellsScrapper.join();
+            kneetScrapper.join();
+            hiveScrapper.join();
+
         } catch (InterruptedException ex) {
             System.out.println("Interrupted exception thrown: " + ex.getMessage());
         }

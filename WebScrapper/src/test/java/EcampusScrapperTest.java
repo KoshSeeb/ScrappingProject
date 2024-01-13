@@ -11,12 +11,19 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+/**
+ * JUnit test class for the EcampusScrapper class.
+ */
 public class EcampusScrapperTest {
 
     private SessionFactory factory;
     private Session session;
     private EcampusScrapper ecampusScrapper;
 
+    /**
+     * Setup method executed before each test.
+     * It configures Hibernate, opens a session, and initializes the EcampusScrapper.
+     */
     @Before
     public void setup() {
         Configuration config = new Configuration();
@@ -27,12 +34,20 @@ public class EcampusScrapperTest {
         ecampusScrapper = new EcampusScrapper();
     }
 
+    /**
+     * Teardown method executed after each test.
+     * It closes the session and the session factory.
+     */
     @After
     public void tearDown() {
         session.close();
         factory.close();
     }
 
+    /**
+     * Test case for the getExistingComparison method.
+     * It checks if the method correctly retrieves an existing Comparison from the database.
+     */
     @Test
     public void testGetExistingComparison() {
         Transaction transaction = session.beginTransaction();
@@ -51,7 +66,6 @@ public class EcampusScrapperTest {
         comparison.setPrice("10.99");  // Set a dummy price for testing purposes
         session.persist(comparison);
 
-
         // Test the getExistingComparison method
         Comparison existingComparison = ecampusScrapper.getExistingComparison(session, "Test Book", "Test Author", "https://example.com");
 
@@ -67,54 +81,3 @@ public class EcampusScrapperTest {
         assertNull(existingComparison);
     }
 }
-//    @Test
-//    public void testDuplicateBookInsertion() {
-//        Transaction transaction = session.beginTransaction();
-//
-//        // Create a Book and Comparison in the database
-//        Book book = new Book();
-//        book.setTitle("Test Book");
-//        book.setAuthor("Test Author");
-//        book.setIsbn("1234567890");
-//        session.persist(book);
-//
-//        Comparison comparison = new Comparison();
-//        comparison.setBook(book);
-//        comparison.setWebsiteName("Test Website");
-//        comparison.setWebsiteUrl("https://example.com");
-//        session.persist(comparison);
-//
-//        transaction.commit();
-//
-//        // Run scrapeBooks method (it should not insert duplicate)
-//        ecampusScrapper.scrapeBooks(session);
-//
-//        // Verify that only one book and one comparison exist in the database
-//        long bookCount = (long) session.createQuery("select count(*) from Book").uniqueResult();
-//        long comparisonCount = (long) session.createQuery("select count(*) from Comparison").uniqueResult();
-//
-//        assertEquals(1, bookCount);
-//        assertEquals(1, comparisonCount);
-//    }
-//
-//    @Test
-//    public void testDifferentBookInsertion() {
-//        Transaction transaction = session.beginTransaction();
-//
-//        // Create a Book and Comparison in the database
-//        Book existingBook = new Book();
-//        existingBook.setTitle("Existing Book");
-//        existingBook.setAuthor("Existing Author");
-//        existingBook.setIsbn("9876543210");
-//        session.persist(existingBook);
-//
-//        transaction.commit();
-//
-//        // Run scrapeBooks method to insert a different book
-//        ecampusScrapper.scrapeBooks(session);
-//
-//        // Verify that two books exist in the database
-//        long bookCount = (long) session.createQuery("select count(*) from Book").uniqueResult();
-//        assertEquals(2, bookCount);
-//    }
-//}

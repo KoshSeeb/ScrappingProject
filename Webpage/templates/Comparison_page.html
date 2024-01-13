@@ -8,45 +8,22 @@
 </head>
 <body>
     <section id="ResultPage">
+        <!-- header -->
         <header>
-            <img src="../static/image/logo_white.png" alt="Logo">
+            <a href="Landing_page.html"><img src="../static/image/logo_white.png" alt="Logo"></a>
+
             <h2 id="result">Book: Bookname by Author </h2>
-            <form class="search">
-                <input type="text" placeholder="Search for book name?" required>
-                <button type="submit"><img src="../static/image/searchglass.png"></button>
-            </form>
+
         </header>
 
         <container>
-            <!-- <div class="left-container"> -->
+            <!-- container in which data will be displyed from javascript -->
                 <div class="container" id="bookDetailsContainer"></div>
-                <!-- Top Left: Image -->
-                <!-- <div id="top">
-                    <img src="../static/image/logo_white.png" alt="Product Image" style="max-width: 100%; height: auto;">
-                    
-                    <div class="top-right">
-                        <span>Best Price:</span>
-                        <span id="price"> $14</span>
-                    </div>
-                </div> -->
-        
-                <!-- Top Right: Best Price -->
                 
-        
-                <!-- Middle Center: Website URL -->
-                <!-- <div class="middle-center">
-                    <b>Website URL: </b> <a href="your_website_url" target="_blank">your_website_url</a>
-                </div> -->
-        
-                <!-- Bottom Center: Description -->
-                <!-- <div class="bottom-center">
-                    <b>Description:</b><br> Your product description goes here.
-                </div> -->
-            <!-- </div>  -->
             
             <div class="right-container">
                 <!-- Creation of a table to display product information -->
-                <main class="table">
+                <main class="table"><b>Similar books<b>
                     <section class="table_body">
                         <table>
                             <thead>
@@ -61,34 +38,8 @@
                                 </tr>
                             </thead>
 
-                            <!-- Hardcoded example of how the information will be displayed in the table -->
+                            <!-- Content of table will be displayed using javascript -->
                             <tbody>
-                                <!-- <tr>
-                                    <td>Harry potter and the gaurdian. ........</td>
-                                    <td>abesbook</td>
-                                    <td>
-                                        <a href #>https.example.com</a>
-                                    </td>
-                                    <td>$14</td>
-                                    <td>$14</td>
-
-                                </tr>
-                                <tr>
-                                    <td>002</td>
-                                    <td>
-                                        <img src="Images/sofa1.jpg"> 
-                                        Grey sofa
-                                    </td>
-                                    <td>2 seat sofa</td>
-                                    <td>002</td>
-                                    <td>
-                                        <img src="Images/sofa1.jpg"> 
-                                        Grey sofa
-                                    </td>
-           
-                                </tr> -->
-                                
-                                
                                 
                             </tbody>
                         </table>
@@ -101,6 +52,8 @@
 
 
     </section>
+
+    <!-- javascript file -->
     <script src="../static/js/Comparison.js"></script>
 </body>
 </html>

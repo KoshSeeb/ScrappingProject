@@ -18,7 +18,7 @@ import java.io.IOException;
 public class EcampusScrapper extends Thread {
 
     // Specifies the interval between HTTP requests to the server in seconds.
-    private int crawlDelay = 1;
+    private final int crawlDelay = 1;
     // Allows us to shut down our application cleanly
     volatile private boolean runThread = false;
 
@@ -33,12 +33,12 @@ public class EcampusScrapper extends Thread {
         while (runThread) {
             System.out.println("EcampusScrapper thread is scraping data");
 
-            // WEB SCRAPING CODE GOES HERE
+            // Web scrapper
             scrapeBooks();
 
-            // Sleep for the crawl delay, which is in seconds
+            // Sleep for the crawl delay
             try {
-                sleep(1000 * crawlDelay); // Sleep is in milliseconds, so we need to multiply the crawl delay by 1000
+                sleep(1000 * crawlDelay);
             } catch (InterruptedException ex) {
                 System.err.println(ex.getMessage());
             }
@@ -77,25 +77,31 @@ public class EcampusScrapper extends Thread {
      * Main method to scrape books from the eCampus website.
      */
     protected void scrapeBooks( ) {
+    //  Creating the link of the website to scrape
         String urlTemp = "https://www.ecampus.com/search-results?terms=fantasy";
         urlTemp = urlTemp + "&page=";
 
+        //  Creating the link of the website to scrape
         Configuration config = new Configuration();
         config.configure("hibernate.cfg.xml");
 
         try (SessionFactory factory = config.buildSessionFactory();
              Session session = factory.openSession()) {
 
-            for (int i = 1; i <= 10 && runThread; i++) {
+            for (int i = 1; i <= 11 && runThread; i++) {
                 String url = urlTemp + i;
 
                 System.out.println("Generated URL: " + url);
 
                 try {
+                    // Connect to the website and retrieve the document
                     Document document = Jsoup.connect(url).get();
+                    // Select all book items from the document
                     Elements books = document.select("ul.results > li.row");
 
+                    // Iterate through each book element
                     for (Element bk : books) {
+                        // Extract book details from the HTML elements
                         String title = bk.select("h1 a").text();
                         String author = bk.select("p.author").text().replaceFirst("^by\\s*", "");
                         String isbn = bk.select("ul li:contains(ISBN13)").text();
@@ -114,6 +120,7 @@ public class EcampusScrapper extends Thread {
                         // Check if the book with the same title, author, and website URL already exists in the database
                         Comparison existingComparison = getExistingComparison(session, title, author, websiteUrl);
 
+                        // If no duplicate, print details and persist in the database
                         if (existingComparison == null) {
                             System.out.println("Title: " + title);
                             System.out.println("Author: " + author);
@@ -124,8 +131,10 @@ public class EcampusScrapper extends Thread {
                             System.out.println("Website URL: " + websiteUrl);
                             System.out.println("------------------------------");
 
+                            // Start a database transaction
                             Transaction transaction = session.beginTransaction();
 
+                            // Create a new Book object and set its properties
                             Book book = new Book();
                             book.setTitle(title);
                             book.setAuthor(author);
@@ -133,6 +142,7 @@ public class EcampusScrapper extends Thread {
                             book.setBookType(bookType);
                             session.persist(book);
 
+                            // Create a new Comparison object and set its properties
                             Comparison comparison = new Comparison();
                             comparison.setBook(book);
                             comparison.setWebsiteName("ecampus");
@@ -141,12 +151,14 @@ public class EcampusScrapper extends Thread {
                             comparison.setPrice(price);
                             session.persist(comparison);
 
+                            // Commit the transaction
                             transaction.commit();
                         } else {
                             System.out.println("Book with the same title, author, and website URL already exists in the database.");
                         }
                     }
                 } catch (IOException e) {
+                    // Handle IOException (e.g., network issues)
                     e.printStackTrace();
                 }
             }
@@ -154,7 +166,7 @@ public class EcampusScrapper extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        // Set the runThread to false when scraping is complete
         runThread = false;
     }
 }
